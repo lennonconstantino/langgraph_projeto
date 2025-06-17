@@ -1,4 +1,4 @@
-from pyasn1_modules.rfc2315 import EncryptedDigest
+
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
 from langgraph.graph import START, END, StateGraph
@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 import os
 
 from tavily import TavilyClient
+import streamlit as st
 
 load_dotenv()
 OPEN_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -77,19 +78,24 @@ builder.add_node("search_tavily", search_tavily)
 builder.add_node("final_writer", final_writer)
 
 builder.add_edge(START, "build_first_queries")
-builder.add_conditional_edges("builder_first_queries",
+builder.add_conditional_edges("build_first_queries",
     researcher,
     ["search_tavily"],
 )
 builder.add_edge("search_tavily", "final_writer")
-builder.add_edge("final writer", END)
+builder.add_edge("final_writer", END)
 graph = builder.compile()
 
 # execuçao
 if __name__ == "__main__":
-    user_input = """
-    Quero que você me explicque o processo
-    total para construir um agente de IA
-    """
-    graph.invoke({"user_input": user_input})
+    st.title("App Langgraph")
+    user_input = st.text_input("Qual a sua pergunta?", value="Me explique o processo para construir um agente de IA")
+    if st.button("Pesquisar"):
+        with st.status("Gerando Resposta"):
+            response = graph.invoke({"user_input": user_input})
+            #final_response = response["final_response"]
+            st.write(response)
+            #st.write(final_response)
+
+
 
