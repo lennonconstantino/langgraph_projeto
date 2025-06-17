@@ -36,7 +36,14 @@ def search_tavily(query: str):
     url_extraction = tavily_client.extract(url)
     if (len(url_extraction["results"])>0):
         raw_content = url_extraction["results"][0]["raw_content"]
-
+        prompt = resume_search.format(user_input=user_input, search_results=raw_content)
+        llm_result = llm.invoke(prompt)
+        query_results = QueryResult(
+            title=results["results"][0]["title"],
+            url=url,
+            resume=llm_result.content
+        )
+    return {"queries_results": [query_results]}
 
 # Edges
 

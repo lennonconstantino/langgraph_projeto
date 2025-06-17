@@ -20,3 +20,19 @@ que serão usadas para encontrar respostas para a pergunta do usuário.
 
 Responda com 3 a 5 consultas.
 """
+
+resume_search = agent_prompt + """
+Seu objetivo aqui é analisar os resultados da pesquisa na web e fazer uma sintese deles, 
+enfatizando apenas o que é relevante para a pergunta do usuário.
+
+Após o seu trabalho, outro agente usará a síntese para construir uma resposta 
+final para o usuário, portanto certifique-se de que a sintese contenha 
+apenas informações úteis e claras.
+
+Seja conciso e claro.
+
+Aqui estão os resultados da pesquisa na web:
+< SEARCH_RESULTS>
+{search_results}
+</ SEARCH_RESULTS>
+"""
