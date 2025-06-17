@@ -36,3 +36,17 @@ Aqui estão os resultados da pesquisa na web:
 {search_results}
 </ SEARCH_RESULTS>
 """
+
+build_final_response = agent_prompt + """
+Seu objetivo é desenvolver uma resposta final para o usuário usando 
+os relatórios gerados durante a busca na web, com sua sintese.
+
+A resposta deve conter entre 500 e 700 palavras.
+
+Aqui estão os resultados da busca na web:
+< SEARCH_RESULTS> 
+{search_results}
+</ SEARCH_RESULTS>
+Você deve adicionar citações de referência (com o número da citação, exemplo [1])
+para os artigos que você usou em cada parágrafo da sua resposta
+"""
