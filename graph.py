@@ -17,7 +17,10 @@ llm = ChatOpenAI(model="gpt-3.5-turbo", api_key=OPEN_API_KEY)
 reasoning_llm = ChatOpenAI(model="o4-mini", api_key=OPEN_API_KEY)
 
 # Nos
-
+def build_first_queries(state: ReportState):
+    user_input = state.user_input
+    prompt =  build_queries.format(user_input=user_input)
+    return {""}
 
 # Edges
 
